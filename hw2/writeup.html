@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>writeup.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="cs184284a-spring-2025-homework-2-write-up">CS184/284A Spring 2025 Homework 2 Write-Up</h1>
+<div style="text-align: center;">Sirawich Smitsomboon</div>
+<p>Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a></p>
+<p>Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw2-team-of-1">github.com/cal-cs184-student/sp25-hw2-team-of-1</a></p>
+<h2 id="overview">Overview</h2>
+<!-- Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework. -->
+<p>In this homework, I've built the method to evaluate Bezier Curves and Surfaces at a given <code>t</code> using De Casteljau's algorithm and built the system to flip/split edges and do a loop subdivision.</p>
+<h2 id="section-i-bezier-curves-and-surfaces">Section I: Bezier Curves and Surfaces</h2>
+<h3 id="part-1-bezier-curves-with-1d-de-casteljau-subdivision">Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
+<!-- Briefly explain de Casteljau’s algorithm and how you implemented it in order to evaluate Bezier curves. -->
+<p>De Casteljau's algorithm is the algorithm that runs linear interpolation (lerp) multiple times based on the amount of control points. For each step, I create a new  <code>std::vector&lt;Vector2D&gt;</code>, iterate through the points, do linear interpolation, and push the new point into the new vector. The resulting vector has one less element than input <code>points</code>.</p>
+<!-- Take a look at the provided .bzc files and create your own Bezier curve with 6 control points of your choosing. Use this Bezier curve for your screenshots below. -->
+<p>Here's the Bezier curve with 6 control points.</p>
+<p><img src="image-11.png" alt="alt text"></p>
+<!-- Show screenshots of each step / level of the evaluation from the original control points down to the final evaluated point. Press E to step through. Toggle C to show the completed Bezier curve as well. -->
+<p>Here's each step of evaluation</p>
+<table>
+<thead>
+<tr>
+<th>Step 1</th>
+<th>Step 2</th>
+<th>Step 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-12.png" alt="alt text"></td>
+<td><img src="image-13.png" alt="alt text"></td>
+<td><img src="image-14.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Step 4</th>
+<th>Step 5</th>
+<th>Step 6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-15.png" alt="alt text"></td>
+<td><img src="image-16.png" alt="alt text"></td>
+<td><img src="image-17.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<!-- Show a screenshot of a slightly different Bezier curve by moving the original control points around and modifying the parameter `t` via mouse scrolling. -->
+<p>Here's a slightly different curve with different parameter t.</p>
+<table>
+<thead>
+<tr>
+<th>t &lt; 0.5</th>
+<th>t ≈ 0.5</th>
+<th>t &gt; 0.5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-18.png" alt="alt text"></td>
+<td><img src="image-19.png" alt="alt text"></td>
+<td><img src="image-20.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="part-2-bezier-surfaces-with-separable-1d-de-casteljau">Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
+<!-- Briefly explain how de Casteljau algorithm extends to Bezier surfaces and how you implemented it in order to evaluate Bezier surfaces. -->
+<p>De Casteljau's algorithm extends to Bezier surfaces by evaluating the curve on one axis with one parameter, then, treat the evaluated points on that first axis as a Bezier curve, and evalulate points with another parameter.</p>
+<pre class="hljs"><code><div><span class="hljs-function">Vector3D <span class="hljs-title">evaluate</span><span class="hljs-params">(<span class="hljs-keyword">double</span> u, <span class="hljs-keyword">double</span> v)</span>
+</span>{
+    <span class="hljs-comment">// std::vector&lt;std::vector&lt;Vector3D&gt;&gt; controlPoints</span>
+	<span class="hljs-keyword">auto</span> pts = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;Vector3D&gt;();
+
+    <span class="hljs-comment">// Evaluate on one direction with parameter u</span>
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; controlPoints.size(); i++) {
+		pts.push_back(evaluate1D(controlPoints[i], u));
+	}
+
+    <span class="hljs-comment">// Then evalulate the collected points on another axis with parameter v</span>
+	<span class="hljs-keyword">return</span> evaluate1D(pts, v);
+}
+</div></code></pre>
+<!-- Show a screenshot of bez/teapot.bez (not .dae) evaluated by your implementation. -->
+<p>Here's the evaluated <code>bez/teapot.bez</code>.</p>
+<p><img src="image.png" alt="alt text"></p>
+<h2 id="section-ii-triangle-meshes-and-half-edge-data-structure">Section II: Triangle Meshes and Half-Edge Data Structure</h2>
+<h3 id="part-3-area-weighted-vertex-normals">Part 3: Area-weighted vertex normals</h3>
+<!-- Briefly explain how you implemented the area-weighted vertex normals. -->
+<p>To implement area-weighted vertex normals, I iterated through all faces, add them times the relative area to the sum, and then call <code>.unit()</code> on it to get a unit vector.</p>
+<p>To iterate over the faces over the vertex, I get the initial <code>iter = start = halfedge()</code> I used <code>iter-&gt;face()</code> to get the current face and <code>iter-&gt;twin()-&gt;next()</code> to move to the next face. Iterate this using a do-while loop while <code>iter != start</code>.</p>
+<p>To compute the relative area, gather two vectors representing two of the sides, compute the cross product, and gets its magnitude. This represents double the actual area.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">auto</span> v1 = he-&gt;next()-&gt;vertex()-&gt;position - he-&gt;vertex()-&gt;position;
+<span class="hljs-keyword">auto</span> v2 = he-&gt;next()-&gt;next()-&gt;vertex()-&gt;position - he-&gt;next()-&gt;vertex()-&gt;position;
+<span class="hljs-keyword">auto</span> prod = cross(v1, v2);
+<span class="hljs-keyword">auto</span> relativearea = <span class="hljs-built_in">sqrt</span>(prod.x * prod.x + prod.y * prod.y + prod.z * prod.z);
+</div></code></pre>
+<!-- Show screenshots of dae/teapot.dae (not .bez) comparing teapot shading with and without vertex normals. Use Q to toggle default flat shading and Phong shading. -->
+<table>
+<thead>
+<tr>
+<th>Flat shading</th>
+<th>Phong shading</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-8.png" alt="alt text"></td>
+<td><img src="image-9.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="part-4-edge-flip">Part 4: Edge flip</h3>
+<!-- Briefly explain how you implemented the edge flip operation and describe any interesting implementation / debugging tricks you have used. -->
+<p>I have implemented this by referencing the image given in the homework.</p>
+<p><img src="image-1.png" alt="alt text"></p>
+<p>I gathered all the halfedges in this structure. The function takes in the edge CB. First, gets its halfedge, and this halfedge is called <code>bc</code>. Then, iterate through all halfedges <code>next</code>s and <code>twin</code>s and gets all the relevant halfedges, edges, vertexes, faces.</p>
+<pre class="hljs"><code><div>VertexIter a, b, c, d; HalfedgeIter ab, bd, dc, ca;
+HalfedgeIter _cb, _bc = e0-&gt;halfedge();
+FaceIter _abc, _bcd;
+EdgeIter ab_ba, bd_db, dc_cd, ca_ac;
+<span class="hljs-comment">// Starting with _bc, pattern match with the image on the homework website and assign these</span>
+<span class="hljs-comment">// b, ca, c, ab, a , _cb, c, bd, dc, d, _abc, _bcd, ab_ba, bd_db, dc_cd, ca_ac</span>
+</div></code></pre>
+<p>Then, since the edges will be flipped, the old edge can actually be reused such that no elements will be created or destroyed.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Reuse old `bc` and `cb` halfedges as `ad` and `da` edges.</span>
+HalfedgeIter ad = _bc, da = _cb;
+<span class="hljs-comment">// and its associated</span>
+EdgeIter ad_da = e0;
+</div></code></pre>
+<p>Then, referencing the diagram again, I set the associated vertexes, halfedges, edges, and faces to match the new target shape.</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">set</span>(a, ab, ab_ba, abd, ab-&gt;twin(), bd);
+<span class="hljs-built_in">set</span>(b, bd, bd_db, abd, bd-&gt;twin(), da);
+<span class="hljs-built_in">set</span>(d, da, ad_da, abd, ad,         ab);
+<span class="hljs-built_in">set</span>(a, ad, ad_da, acd, da,         dc);
+<span class="hljs-built_in">set</span>(d, dc, dc_cd, acd, dc-&gt;twin(), ca);
+<span class="hljs-built_in">set</span>(c, ca, ca_ac, acd, ca-&gt;twin(), ad);
+</div></code></pre>
+<p>where <code>set</code> is a helper function</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(VertexIter src, HalfedgeIter he, EdgeIter e, FaceIter f, HalfedgeIter twin, HalfedgeIter next)</span> </span>{
+	src-&gt;halfedge() = he;
+	e-&gt;halfedge() = he;
+	f-&gt;halfedge() = he;
+	twin-&gt;twin() = he;
+	he-&gt;setNeighbors(next, twin, src, e, f);
+}
+</div></code></pre>
+<!-- Show screenshots of the teapot before and after some edge flips. -->
+<table>
+<thead>
+<tr>
+<th>Before edge flips</th>
+<th>After edge flips</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-4.png" alt="alt text"></td>
+<td><img src="image-3.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<!-- Write about your eventful debugging journey, if you have experienced one. -->
+<p><em>Debugging Journey: I had the correct implementation before I come up with the simplified <code>set</code> helper function, where I set everything one by one. However, Part 6 implementation makes me question whether I implemented Edge flip correctly, so I changed it. Turns out it's the Edge split part that was incorrect, but at this point I went with the simplified <code>set</code> helper instead of questionable code that goes back and forth.</em></p>
+<h3 id="part-5-edge-split">Part 5: Edge split</h3>
+<!-- Briefly explain how you implemented the edge split operation and describe any interesting implementation / debugging tricks you have used. -->
+<p>I have implemented this by referencing the image given in the homework.</p>
+<p><img src="image-5.png" alt="alt text"></p>
+<p>I gathered all the halfedges in this structure. The function takes in the edge CB. First, gets its halfedge, and this halfedge is called <code>bc</code>. Then, iterate through all halfedges <code>next</code>s and <code>twin</code>s and gets all the relevant halfedges, edges, vertexes, faces.</p>
+<pre class="hljs"><code><div>VertexIter a, b, c, d; HalfedgeIter ab, bd, dc, ca;
+HalfedgeIter _cb, _bc = e0-&gt;halfedge();
+FaceIter _abc, _bcd;
+EdgeIter ab_ba, bd_db, dc_cd, ca_ac;
+<span class="hljs-comment">// Starting with _bc, pattern match with the image on the homework website and assign these</span>
+<span class="hljs-comment">// b, ca, c, ab, a , _cb, c, bd, dc, d, _abc, _bcd, ab_ba, bd_db, dc_cd, ca_ac</span>
+</div></code></pre>
+<p>Then, I recycled some of the halfedges, edges, faces, but I have to create some more since splitting creates more faces, edges, halfedges, and vertex.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Shrink `cb` and `bc` to `cm` and `mc`.</span>
+HalfedgeIter cm = _cb, mc = _bc;
+cm_mc = _cb-&gt;edge();
+<span class="hljs-comment">// Recycle `abc` and `bcd` for two of the faces.</span>
+FaceIter cam = _abc, dcm = _bcd;
+<span class="hljs-comment">// Creates new for the rest</span>
+<span class="hljs-comment">// HalfedgeIter am, ma, bm, mb, dm, md</span>
+<span class="hljs-comment">// EdgeIter bm_mb, am_ma, dm_md</span>
+<span class="hljs-comment">// FaceIter abm, bdm</span>
+</div></code></pre>
+<p>Then, referencing the diagram again, I set the associated vertexes, halfedges, edges, and faces to match the new target shape.</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">set</span>(a, ab, ab-&gt;edge(), abm, ab-&gt;twin(), bm);
+<span class="hljs-built_in">set</span>(b, bm, bm_mb     , abm, mb        , ma);
+<span class="hljs-built_in">set</span>(m, ma, am_ma     , abm, am        , ab);
+<span class="hljs-built_in">set</span>(b, bd, bd-&gt;edge(), bdm, bd-&gt;twin(), dm);
+<span class="hljs-built_in">set</span>(d, dm, dm_md     , bdm, md        , mb);
+<span class="hljs-built_in">set</span>(m, mb, bm_mb     , bdm, bm        , bd);
+<span class="hljs-built_in">set</span>(d, dc, dc-&gt;edge(), dcm, dc-&gt;twin(), cm);
+<span class="hljs-built_in">set</span>(c, cm, cm_mc     , dcm, mc        , md);
+<span class="hljs-built_in">set</span>(m, md, dm_md     , dcm, dm        , dc);
+<span class="hljs-built_in">set</span>(c, ca, ca-&gt;edge(), cam, ca-&gt;twin(), am);
+<span class="hljs-built_in">set</span>(a, am, am_ma     , cam, ma        , mc);
+<span class="hljs-built_in">set</span>(m, mc, cm_mc     , cam, cm        , ca);
+</div></code></pre>
+<p>where <code>set</code> is the same helper function as last part.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(VertexIter src, HalfedgeIter he, EdgeIter e, FaceIter f, HalfedgeIter twin, HalfedgeIter next)</span> </span>{
+	src-&gt;halfedge() = he;
+	e-&gt;halfedge() = he;
+	f-&gt;halfedge() = he;
+	twin-&gt;twin() = he;
+	he-&gt;setNeighbors(next, twin, src, e, f);
+}
+</div></code></pre>
+<!-- Show screenshots of a mesh before and after some edge splits. -->
+<table>
+<thead>
+<tr>
+<th>Before edge splits</th>
+<th>After edge splits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-4.png" alt="alt text"></td>
+<td><img src="image-6.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<!-- Show screenshots of a mesh before and after a combination of both edge splits and edge flips. -->
+<table>
+<thead>
+<tr>
+<th>Before edge splits and flips</th>
+<th>After edgeedge splits and flips</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-4.png" alt="alt text"></td>
+<td><img src="image-7.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<!-- Write about your eventful debugging journey, if you have experienced one. -->
+<p><em>Debugging Journey: At first, I was not using <code>set</code> helper function and was setting edges, faces, halfedges <code>next()</code> and <code>twin()</code> directly. While working on part 6, it proves that while it seems to work on a small scale, it creates holes when done in a bigger scale. At that time, I spend time to create this <code>set</code> helper, which makes it very hard miss setting some attributes.</em></p>
+<h3 id="part-6-loop-subdivision-for-mesh-upsampling">Part 6: Loop subdivision for mesh upsampling</h3>
+<!-- Briefly explain how you implemented the loop subdivision and describe any interesting implementation / debugging tricks you have used. -->
+<p>To implement loop subdivision, I first loop over all vertices, resetting <code>isNew</code> flag to false, and calculate their new position and stored in <code>newPosition</code>. This calculation loops over all neighbors, take note of the degree of the vertex and the sum of positions, and use the provided formula in the homework website.</p>
+<p>Then, I loop over all edges, resetting <code>isNew</code> flag to false, and calculate their new midpoint position and stored in <code>newPosition</code>. This calculation uses similar pattern matching style implemented in Part 4 and Part 5 to figure out all vertices.</p>
+<pre class="hljs"><code><div>HalfEdgeIter ab = center-&gt;halfedge();
+<span class="hljs-comment">// starting from HalfEdgeIter ab, get these information via pointer manipulation</span>
+<span class="hljs-comment">// HalfEdgeIter bd, ba, cb</span>
+<span class="hljs-comment">// VertexIter a, b, c, d;</span>
+</div></code></pre>
+<p>Then, use new position of a, b, c, and d (calculated in the first loop over all vertices), calculate the position using the provided formula in the homework website.</p>
+<p>Then, split all the original edges. In the spliting logic, also assign isNew flag for these lines, which will be helpful to determine which edges to flip.</p>
+<pre class="hljs"><code><div>am_ma-&gt;isNew = <span class="hljs-literal">true</span>;
+dm_md-&gt;isNew = <span class="hljs-literal">true</span>;
+m-&gt;isNew = <span class="hljs-literal">true</span>;
+</div></code></pre>
+<p>Then, flip the new edges which connects one old vertex and one new vertex (<code>he-&gt;vertex()-&gt;isNew != he-&gt;next()-&gt;vertex()-&gt;isNew</code>).</p>
+<p>Here's the result of applying loop subdivision to <code>icosahedron/input.dae</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Original</th>
+<th>Ater 1 Loop Subdivision</th>
+<th>Ater 2 Loop Subdivisions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-22.png" alt="alt text"></td>
+<td><img src="image-23.png" alt="alt text"></td>
+<td><img src="image-24.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<p>After each loop subdivision, the sharp corners becomes more rounded and the mesh seems to become smaller. By pre-spliting some edges, it seems like it does not really change the roundness nor changing the rate which the shape becomes smaller, although do change the balance and how edge splits look like.</p>
+<!--
+Load dae/cube.dae. Perform several iterations of loop subdivision on the cube. Notice that the cube becomes slightly asymmetric after repeated subdivisions. Can you pre-process the cube with edge flips and splits so that the cube subdivides symmetrically? Document these effects and explain why they occur. Also explain how your pre-processing helps alleviate the effects. -->
+<p>As shown in the homework website, the result of performing loop subdivision on the original cube is not symmetrical. This is because the way the edges are laid out is not symmetrical. There is a way to preprocess it such that it is symmetrical, by making an <code>X</code> cross on every face like so:</p>
+<table>
+<thead>
+<tr>
+<th>Original Cube</th>
+<th>Preprocessed Cube</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-25.png" alt="alt text"></td>
+<td><img src="image-26.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<p>Here is the new cube with symmetrical loop subdivision:</p>
+<table>
+<thead>
+<tr>
+<th>Preprocessed Cube</th>
+<th>Ater 1 Loop Subdivision</th>
+<th>Ater 2 Loop Subdivisions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-27.png" alt="alt text"></td>
+<td><img src="image-28.png" alt="alt text"></td>
+<td><img src="image-29.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Ater 3 Loop Subdivisions</th>
+<th>Ater 4 Loop Subdivisions</th>
+<th>Ater 5 Loop Subdivisions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="image-30.png" alt="alt text"></td>
+<td><img src="image-33.png" alt="alt text"></td>
+<td><img src="image-32.png" alt="alt text"></td>
+</tr>
+</tbody>
+</table>
+<p>Preprocessing this way alleviate the effects since the edge lines on the cube is now symmetrical.</p>
+
+</body>
+</html>
