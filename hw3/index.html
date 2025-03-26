@@ -1,106 +1,725 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-		<style>
-			h1 {
-				text-align: center;
-			}
+<head>
+<title>writeup.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-			.container {
-				margin: 0 auto;
-				padding: 60px 20%;
-			}
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
-			figure {
-				text-align: center;
-			}
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
 
-			img {
-				display: inline-block;
-			}
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
 
-			body {
-				font-family: 'Inter', sans-serif;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 3 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
 
-		<br>
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		
-		<figure>
-			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
+body.showEditorSelection .code-line {
+	position: relative;
+}
 
-		<!--
-		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
-		-->
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
 
-		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
 
-		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			</table>
-		</div>
-		
-		<h2>Part 2: Bounding Volume Hierarchy</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
 
-		<h2>Part 3: Direct Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
 
-		<h2>Part 4: Global Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
 
-		<h2>Part 5: Adaptive Sampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
 
-		<h2>(Optional) Part 6: Extra Credit Opportunities</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
-		</div>
-	</body>
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="cs184284a-spring-2025-homework-3-write-up">CS184/284A Spring 2025 Homework 3 Write-Up</h1>
+<div style="text-align: center;">Sirawich Smitsomboon</div>
+<p>Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-my-team-lol/hw2/index.html">cal-cs184-student.github.io/hw-webpages-my-team-lol/hw2/index.html</a></p>
+<p>Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw2-team-of-1">github.com/cal-cs184-student/sp25-hw2-team-of-1</a></p>
+<h2 id="overview">Overview</h2>
+<p>In this homework, we implemented ray generation and intersection and BVH acceleration, which is used to built the ray tracing system and able to render direct lighting and global illumination. Then, we also implemented adaptive sampling, allowing more complex part of the image to be sampled more while keeping the less complex part that easily converge to be sampled less. I learned about the fundamentals of lighting framework from this homework, as I get to actually implement what is presented as an abstract idea in lecture.</p>
+<h2 id="part-1-ray-generation-and-scene-intersection">Part 1: Ray Generation and Scene Intersection</h2>
+<h3 id="ray-generation-and-primitive-intersection">Ray Generation and Primitive Intersection</h3>
+<p>During the ray tracing, for each (x, y) coordinate, I create <code>num_samples</code> rays, each shot into the positon corresponding to the pixel <code>[x, x+1)</code>, <code>[y, y+1)</code>. To convert from the pixel coordinates, to the image space, I use the coordinate change formula described in lecture</p>
+<p><img src="image.png" alt="Coordinate Change formula"></p>
+<p>As the result of this matrix multiplication is in the camera space, I left multiplied by <code>c2w</code>. Then, normalize the vector to the unit-length vector, and the resulting ray is a ray with its origin at the camera position, and the direction as the unit-length vector computed earlier.</p>
+<p>Then, I ensure to set <code>min_t</code> and <code>max_t</code> to <code>nClip</code> and <code>fClip</code> as the instruction stated.</p>
+<h3 id="triangle-intersection-algorithm">Triangle Intersection Algorithm</h3>
+<p>First, I need to intersect the ray with the plane normal first. To do so, I compute the normal vector <code>N</code> by <code>(p2 - p1) cross (p3 - p1)</code>. Then, using the formula given in lecture <code>t = dot(p1 - r.o, N) / dot(r.d, N)</code>, then check whether the given value <code>t</code> is valid. If the ray does not intersect this plane, then it is considered that the ray did not hit the triangle (since the ray did not hit the plane that the triangle is on).</p>
+<p>Secondly, I created the Line Equation Tests function <code>L</code>, however, unlike in the lecture slides, I had to adapt the implementation to support 3D spaces and cannot use the final solution directly. Therefore, I implemented according to <code>L(ptest, p1, p2, NPlane) = V dot N</code> where <code>V = ptest - p1</code> and <code>N = normal_of(p2 - p1)</code>, where the normal can be calculated by using <code>NPlane</code>: <code>N = (p2 - p1) cross NPlane</code>.</p>
+<p>Initially, I planned to use the Three Line Tests, but then quickly realized that it is insufficient since I need to compute <code>isect-&gt;n</code> later. Therefore, I computed the Barycentric Coordinates. Again, unlike in the lecture slide that has a final solution in 2D, I had to step back and use the general form solution:</p>
+<pre class="hljs"><code><div>alpha = L(hit_pt, p2, p3, NPlane) / L(p1, p2, p3, NPlane);
+beta = L(hit_pt, p1, p3, NPlane) / L(p2, p1, p3, NPlane);
+gamma = <span class="hljs-number">1</span> - alpha - beta;
+</div></code></pre>
+<p>If any components of the barycentric coordinate is negative, then the intersection does not pass the triangle, otherwise, it is. Note that I can make this conclusion because I already check that the intersection point <code>hit_pt</code> is in the same plane.</p>
+<p>Finally, if all checks passed, fill in the result of the intersection <code>t</code> from the plane intersection, bsdf from <code>get_bsdf()</code>, <code>n</code> from barycentric coordinates interpolation (<code>n1 * alpha + n2 * beta + n3 * gamma</code>), and <code>primitive = this</code>.</p>
+<p>This implementation description is general for <code>intersect</code> and <code>has_intersect</code>. Implementation-wise, <code>has_intersect(r)</code> calls <code>intersect(r, NULL)</code> and <code>intersect</code> checks that <code>isect</code> is not <code>NULL</code> before filling in the values.</p>
+<h3 id="result">Result</h3>
+<p>Here's a rendering for some of the .dae files:</p>
+<table>
+<thead>
+<tr>
+<th>CBempty</th>
+<th>CBspheres</th>
+<th>CBgems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBempty.png" alt="CBempty.dae normal shading rendering"></td>
+<td><img src="CBSpheres.png" alt="CBspheres.dae normal shading rendering"></td>
+<td><img src="CBgems.png" alt="CBgems.dae normal shading rendering"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-2-bounding-volume-hierarchy">Part 2: Bounding Volume Hierarchy</h2>
+<h3 id="implementation">Implementation</h3>
+<p>First, I iterate over all elements, getting the bounding box containing all elements and keeping track of all elements count. If the count is less than or equal to <code>max_leaf_size</code>, just create a leaf node with the bounding box, setting start and end pointer appropriately.</p>
+<p>Otherwise, from this box, I find which spread is the highest (<code>diff.x</code>, <code>diff.y</code>, or <code>diff.z</code>, where diff is <code>bbox.max - bbox.min</code>).</p>
+<p>Then, I created two new vectors (<code>left</code>, <code>right</code>) for each case, I iterate over the elements again, checking whether the centroids's x/y/z is less than or equal to <code>bbox</code>'s centroid x/y/z. If so, append this to <code>left</code>. Otherwise, append this to <code>right</code>.</p>
+<p>In an event where <code>left</code> or <code>right</code> have 0 elements (ie. all of them goes to one side), clear the elements, then iterate again from the beginning. The tie-braking rules goes: add left, right, left, right, etc. until the end:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">bool</span> addleft = <span class="hljs-literal">true</span>;
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> p = start; p != end; p++) {
+    <span class="hljs-keyword">if</span> (addleft) {
+        left-&gt;push_back(*p);
+    }
+    <span class="hljs-keyword">else</span> {
+        right-&gt;push_back(*p);
+    }
+    addleft = !addleft;
+}
+</div></code></pre>
+<p>Not the most efficient tie-breaking rule I believe but it works™️.</p>
+<h3 id="results">Results</h3>
+<p>Here are some renderings of normal shading of some large .dae files:</p>
+<table>
+<thead>
+<tr>
+<th>CBlucy</th>
+<th>dragon</th>
+<th>blob</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBlucy.png" alt="CBlucy.dae normal shading rendering"></td>
+<td><img src="dragon.png" alt="dragon.dae normal shading rendering"></td>
+<td><img src="blob.png" alt="blob.dae normal shading rendering"></td>
+</tr>
+</tbody>
+</table>
+<p>After rendering a few scences with moderately complex geometries, the render time without BVH acceleration ranges from 20 seconds to a minute, reduced down to 0.1 to 0.2 seconds with BVH acceleration on normal shading. This result was gathered from rendering 800x600 images using 8 threads.</p>
+<h3 id="generative-ai-notice">Generative AI Notice</h3>
+<p>Per the class policy on Use of Generative-AI tools, I would like to acknowledge some use of Generative AI to assist with debugging. I have implemented all the BVH code and BBox intersection myself first before asking for help as I notice that some things are not quite right when I'm on later tasks.</p>
+<p>One change that was implemented in this part is within <code>BBox::intersect</code> implementation, where I checked for <code>t0 &lt; t1</code> but the Generative AI suggested to change to <code>t0 &lt;= t1</code>. This later makes sense to be since if the bounding box is very thin (ie. being very close to being a plane), then <code>t0</code> can have such precision that is equal to <code>t1</code>.</p>
+<h2 id="part-3-direct-illumination">Part 3: Direct Illumination</h2>
+<h3 id="implementation">Implementation</h3>
+<p>In hemisphere sampling, I loop for <code>num_samples</code> times (which is set to <code>scene-&gt;lights.size() * ns_area_light</code>).</p>
+<p>For each iteration, I get a new sample from <code>hemisphereSampler</code> to get <code>wj</code>, which is then transformed into world space to get the world coordinates <code>wj = o2w * wj</code>. Then, create a new ray <code>Ray(hit_p, wj)</code> (with <code>min_t = EPS_F</code>), find the second intersected object (<code>i2</code>). If there isn't an intersection, <code>incoming_light = (0, 0, 0)</code>. Otherwise, get the result of the first bounce on <code>i2</code> (which simply grabs <code>i2.bsdf-&gt;get_emission()</code>) and set to <code>incoming_light</code>.</p>
+<p>Then, I compute the cosine term, which can be derived from <code>wj</code> and <code>isect.n</code> (<code>cos = (wj dot isect.n) / (|wj| * |isect.n|)</code>). If the cosine term is less than 0, then I skip the rest of the logic and move to the next iteration (ie. add 0 light).</p>
+<p>Then, I get the reflectance of outgoing direction <code>wj</code> and incoming direction <code>-r.d</code>. Using the formula in lecture to compute the term inside the summation, <code>reflectance * incoming_light * cos_theta_j / pdf</code> where <code>pdf</code> is <code>1/2pi</code>.</p>
+<p>Then, continue to the next iteration.</p>
+<p>When the loop finishes, I return <code>sum / num_samples</code> completing the rest of the terms in the formula.</p>
+<p>In importance sampling, most of the logic is similar. Some differences are that the loop has change from looping <code>num_samples</code> time to looping over each light in the scene, and rather than sampling form <code>hemisphereSampler</code>, now the sampler uses <code>light-&gt;sample_L</code>, retriving <code>wj</code> and <code>pdf</code> (rather than hardcoding the value to <code>1/2pi</code>). And in the end, the divider is <code>scene-&gt;lights.size()</code> rather than <code>num_samples</code> on returning <code>sum / scene-&gt;lights.size()</code>.</p>
+<h3 id="results">Results</h3>
+<p>Here are some renderings of hemisphere and importance direct lighting rendering.</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>CBbunny</th>
+<th>CBspheres_lambertian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hemisphere</td>
+<td><img src="CBbunny_Hemisphere_64_32.png" alt="Bunny Hemisphere"></td>
+<td><img src="CBspheres_Hemisphere_lambertian_64_32.png" alt="CBspheres_lambertian Hemisphere"></td>
+</tr>
+<tr>
+<td>Importance</td>
+<td><img src="CBbunny_64_32.png" alt="Bunny Importance"></td>
+<td><img src="CBspheres_lambertian_64_32.png" alt="CBspheres_lambertian Importance"></td>
+</tr>
+</tbody>
+</table>
+<p>Overall, uniform hemisphere sampling produces noisier outputs than importance lighting sampling.</p>
+<p>Additionally, here's the comparison between different light rays</p>
+<table>
+<thead>
+<tr>
+<th><code>-l 1</code></th>
+<th><code>-l 4</code></th>
+<th><code>-l 16</code></th>
+<th><code>-l 64</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBbunny_1_1.png" alt="Bunny -l 1"></td>
+<td><img src="CBbunny_1_4.png" alt="Bunny -l 4"></td>
+<td><img src="CBbunny_1_16.png" alt="Bunny -l 16"></td>
+<td><img src="CBbunny_1_64.png" alt="Bunny -l 64"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="generative-ai-notice">Generative AI Notice</h3>
+<p>Per the class policy on Use of Generative-AI tools, I would like to acknowledge some use of Generative AI to assist with debugging. I have implemented everything in this section myself first before asking for help as I was running into multiple issues.</p>
+<p>One of the root cause that makes the rendering gone wrong is the incorrect implementation of <code>DiffuseBSDF::f</code>. The correct implementation should not depend on <code>wo</code> and <code>wi</code>. However, at the time I was confused on how to implement it and didn't implement it right. The Generative AI caught this bug after a lot of pain of going back and forth of other parts. I now understand why the implementation do not require <code>wo</code> and <code>wi</code> - diffuse transfer function do not depend on the viewing angle. Another part that was helped was that I was confused which two vectors to compute cosine on, as all of them are giving weird results, and sometimes removing <code>if cos &lt; 0</code> actually makes things better. After fixing <code>DiffuseBSDF::f</code> and accept another suggestion that cosine should be from <code>wj</code> and <code>isect.n</code>, now I understand that this is how Lambert's cosine works.</p>
+<h2 id="part-4-global-illumination">Part 4: Global Illumination</h2>
+<h3 id="implementation">Implementation</h3>
+<p>I created a helper function <code>at_least_one_bounce_radiance_recur(const Ray&amp; r, const Intersection&amp; isect, int recur)</code> where <code>at_least_one_bounce_radiance_recur(r, isect)</code> calls <code>at_least_one_bounce_radiance_recur(r, isect, 0)</code>, and adds <code>zero_bounce_radiance(r, isect)</code> in appropriate case (if <code>isAccumBounces</code> or <code>max_ray_depth</code> is 0), to help with keeping track of the depth of the ray.</p>
+<p>In the base case implementations, there are some basic (although many) checks, as described by the following psudocode</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">if</span> recur == <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> max_ray_depth == <span class="hljs-number">0</span>:
+    <span class="hljs-keyword">if</span> currently <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> russian roulette mode:
+        <span class="hljs-keyword">return</span> Vector3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)
+
+<span class="hljs-keyword">if</span> recur + <span class="hljs-number">1</span> &gt;= max_ray_depth:
+    <span class="hljs-keyword">if</span> currently <span class="hljs-keyword">in</span> russian roulette mode <span class="hljs-keyword">and</span> coin_flip(<span class="hljs-number">0.7</span>):
+        continuationprob = <span class="hljs-number">0.7</span>
+        <span class="hljs-comment"># Add one bounce if we are accumulating bounces. Otherwise, don't.</span>
+        L = one_bounce_radiance(r, isect) <span class="hljs-keyword">if</span> isAccumBounces <span class="hljs-keyword">else</span> Vector3D(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)
+        goto recursive case
+    <span class="hljs-comment"># don't go forward, return the last bounce</span>
+    <span class="hljs-keyword">return</span> one_bounce_radiance(r, isect)
+
+continuationprob = <span class="hljs-number">1</span>
+<span class="hljs-comment"># Add one bounce if we are accumulating bounces. Otherwise, don't.</span>
+L = one_bounce_radiance(r, isect) <span class="hljs-keyword">if</span> isAccumBounces <span class="hljs-keyword">else</span> Vector3D(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)
+goto recursive case
+</div></code></pre>
+<p><code>continuationprob</code> is the probability of continuation, which is later used. Light <code>L</code> variable will also be used in the recursive case. If L is one bounce before entering recursive case, it means that one bounce is added to the result of the recursive case.</p>
+<p>The logic of the recursive case is similar to the previous part, copied down here, with bold parts representing the differences between the previous part.</p>
+<p><strong>First, we do not loop (ie, only taking one sample) according to the spec.</strong></p>
+<p><strong>I get a new sample from <code>isect.bsdf-&gt;sample_f(w_out, &amp;wj, &amp;pdf)</code>, retriving <code>wj</code> and <code>pdf</code>.</strong> <code>wj</code> is then transformed into world space to get the world coordinates <code>wj = o2w * wj</code>. Then, create a new ray <code>newray = Ray(hit_p, wj)</code> (with <code>min_t = EPS_F</code>), find the second intersected object (<code>i2</code>). If there isn't an intersection, <strong>return the <code>L</code> value retrived earlier</strong>. Otherwise, <strong>do a recursive call to get the incoming light <code>at_least_one_bounce_radiance_recur(newray, )</code> get the indirect lighting</strong> and set to <code>incoming_light</code>.</p>
+<p>Then, I compute the cosine term, which can be derived from <code>wj</code> and <code>isect.n</code> (<code>cos = (wj dot isect.n) / (|wj| * |isect.n|)</code>). If the cosine term is less than 0, <strong>return the <code>L</code> value retrived earlier.</strong>.</p>
+<p><strong>With <code>reflectance</code> retrived earlier</strong> and using the formula in lecture to compute the term inside the summation, <code>L_recur = incoming_light * reflectance * cos_theta_j / pdf</code> where <code>pdf</code> is <strong>retrived earlier</strong>.</p>
+<p><strong>Then, return the sum of the new light and the <code>L</code> value retrived earlier.</strong></p>
+<h3 id="results">Results</h3>
+<p>Here's some comparison between direct and indirect illumination rendering.</p>
+<table>
+<thead>
+<tr>
+<th>Direct Illumination</th>
+<th>Global Indirect Illumination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBspheres_1024_16_1_1.png" alt="Direct Illumination"></td>
+<td><img src="CBspheres_1024_16_5_1.png" alt="Global Indirect Illumination"></td>
+</tr>
+</tbody>
+</table>
+<p>If we cut out the direct illumination from indirect illumination, here is how it looks like:</p>
+<table>
+<thead>
+<tr>
+<th>Direct Illumination</th>
+<th>Only Indirect Illumination</th>
+<th>Global Indirect Illumination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBspheres_1024_16_1_1.png" alt="Direct Illumination"></td>
+<td><img src="CBspheres_lambertian_1024_16_5_ONLY_INDIRECT.png" alt="Only Indirect Illumination"></td>
+<td><img src="CBspheres_1024_16_5_1.png" alt="Indirect Illumination"></td>
+</tr>
+</tbody>
+</table>
+<p>Here are some rendering comparing each bounces:</p>
+<table>
+<thead>
+<tr>
+<th>Bounces</th>
+<th><code>-m 0</code></th>
+<th><code>-m 1</code></th>
+<th><code>-m 2</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unaccumulated</td>
+<td><img src="CBbunny_1024_16_0_0.png" alt="-m 0 -o 0"></td>
+<td><img src="CBbunny_1024_16_1_0.png" alt="-m 1 -o 0"></td>
+<td><img src="CBbunny_1024_16_2_0.png" alt="-m 2 -o 0"></td>
+</tr>
+<tr>
+<td>Accumulated</td>
+<td><img src="CBbunny_1024_16_0_1.png" alt="-m 0 -o 1"></td>
+<td><img src="CBbunny_1024_16_1_1.png" alt="-m 1 -o 1"></td>
+<td><img src="CBbunny_1024_16_2_1.png" alt="-m 2 -o 1"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Bounces</th>
+<th><code>-m 3</code></th>
+<th><code>-m 4</code></th>
+<th><code>-m 5</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unaccumulated</td>
+<td><img src="CBbunny_1024_16_3_0.png" alt="-m 3 -o 0"></td>
+<td><img src="CBbunny_1024_16_4_0.png" alt="-m 4 -o 0"></td>
+<td><img src="CBbunny_1024_16_5_0.png" alt="-m 5 -o 0"></td>
+</tr>
+<tr>
+<td>Accumulated</td>
+<td><img src="CBbunny_1024_16_3_1.png" alt="-m 3 -o 1"></td>
+<td><img src="CBbunny_1024_16_4_1.png" alt="-m 4 -o 1"></td>
+<td><img src="CBbunny_1024_16_5_1.png" alt="-m 5 -o 1"></td>
+</tr>
+</tbody>
+</table>
+<p>In the second bounce of light, it adds the ceiling light and improve the lighting of the front of the bunny. In the third bounce of light, it adds the some shadow more quality of the bunny.</p>
+<p>With Russian Roulette, here's the rendering:</p>
+<table>
+<thead>
+<tr>
+<th><code>-m 0</code></th>
+<th><code>-m 1</code></th>
+<th><code>-m 2</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBbunny_1024_16_0_1_RUSS-2.png" alt="-m 0 RUSS"></td>
+<td><img src="CBbunny_1024_16_1_1_RUSS.png" alt="-m 1 RUSS"></td>
+<td><img src="CBbunny_1024_16_2_1_RUSS.png" alt="-m 2 RUSS"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><code>-m 3</code></th>
+<th><code>-m 4</code></th>
+<th><code>-m 100</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBbunny_1024_16_3_1_RUSS.png" alt="-m 3 RUSS"></td>
+<td><img src="CBbunny_1024_16_4_1_RUSS.png" alt="-m 4 RUSS"></td>
+<td><img src="CBbunny_1024_16_100_1_RUSS.png" alt="-m 100 RUSS"></td>
+</tr>
+</tbody>
+</table>
+<p>Here are some renders with 4 light rays and varying sample-per-pixel rates.</p>
+<table>
+<thead>
+<tr>
+<th><code>-s 1</code></th>
+<th><code>-s 2</code></th>
+<th><code>-s 4</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBspheres_lambertian_1_4_5_1_RUSS.png" alt="-s 1"></td>
+<td><img src="CBspheres_lambertian_2_4_5_1_RUSS.png" alt="-s 2"></td>
+<td><img src="CBspheres_lambertian_4_4_5_1_RUSS.png" alt="-s 4"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><code>-s 8</code></th>
+<th><code>-s 16</code></th>
+<th><code>-s 64</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBspheres_lambertian_8_4_5_1_RUSS.png" alt="-s 8"></td>
+<td><img src="CBspheres_lambertian_16_4_5_1_RUSS.png" alt="-s 16"></td>
+<td><img src="CBspheres_lambertian_64_4_5_1_RUSS.png" alt="-s 64"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><code>-s 1024</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="CBspheres_lambertian_1024_4_5_1_RUSS.png" alt="-s 1024"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="generative-ai-notice">Generative AI Notice</h3>
+<p>Per the class policy on Use of Generative-AI tools, I would like to acknowledge some use of Generative AI to assist with debugging. While geneative AI was not target to be used specifically for this part, some fixes for Part 3 causes some implementation in Part 4 to be updated as well, as the implementation are similar to each other. Specifically, the fix of the cosine term in Part 3 makes me also update the cosine term implementation in Part 4. As of lessons learned, it is similar to Part 3 Generative AI Notice for cosine term part.</p>
+<h2 id="part-5-adaptive-sampling">Part 5: Adaptive Sampling</h2>
+<p>Adaptive sampling is a method of sampling different amount based on the rate of convergence. If the pixels seem to converge fast, stop sampling to save time. This allows cranking up the number of samples up to very high to be possible, as some hard parts will take longer to converge, but other easy parts will not ramp up in number of samples as well.</p>
+<h3 id="implementation">Implementation</h3>
+<p>Adaptive sampling is a method of sampling different amount based on the rate of convergence. If the pixels seem to converge fast, stop sampling. In the original <code>raytrace_pixel</code> loop, I have added variables to keep track of the <code>sumil</code> and <code>sumilsq</code>, which are the sum of <code>out.illum()</code> and sum of <code>out.illum() * out.illum()</code>. Then, if it is every <code>samplesPerBatch</code>th sample, then I compute the <code>I</code> value according to mean and standard deviation and the num samples so far, based on the formula given in the homework. If <code>I</code> is less than <code>maxTolerance * mean</code>, then I save the num samples so far by overriding <code>num_samples</code> (so that <code>sampleBuffer.update_pixel(sum / num_samples, x, y)</code> works as expected) and early exit the loop. Then, ensure to store <code>num_samples</code> in <code>sampleCountBuffer</code> as well.</p>
+<h3 id="results">Results</h3>
+<p>Here are some renderings:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th><code>CBbunny</code></th>
+<th><code>CBspheres_lambertian</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Output Rendering</td>
+<td><img src="CBbunny_2048_16_5_1_ADAP_RUSS.png" alt="CBbunny output ADAP"></td>
+<td><img src="CBspheres_2048_16_5_1_ADAP_RUSS.png" alt="CBspheres out ADAP"></td>
+</tr>
+<tr>
+<td>Sample Rate</td>
+<td><img src="CBbunny_2048_16_5_1_ADAP_RUSS_rate.png" alt="CBbunny sampling rate"></td>
+<td><img src="CBspheres_2048_16_5_1_ADAP_RUSS_rate.png" alt="CBspheres out rate"></td>
+</tr>
+</tbody>
+</table>
+
+</body>
 </html>

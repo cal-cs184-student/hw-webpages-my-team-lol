@@ -7,8 +7,7 @@ Link to GitHub repository: [github.com/cal-cs184-student/sp25-hw2-team-of-1](htt
 
 ## Overview
 
-<!-- Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework. -->
-
+In this homework, we implemented ray generation and intersection and BVH acceleration, which is used to built the ray tracing system and able to render direct lighting and global illumination. Then, we also implemented adaptive sampling, allowing more complex part of the image to be sampled more while keeping the less complex part that easily converge to be sampled less. I learned about the fundamentals of lighting framework from this homework, as I get to actually implement what is presented as an abstract idea in lecture.
 
 
 ## Part 1: Ray Generation and Scene Intersection
@@ -23,7 +22,6 @@ As the result of this matrix multiplication is in the camera space, I left multi
 Then, I ensure to set `min_t` and `max_t` to `nClip` and `fClip` as the instruction stated.
 
 ### Triangle Intersection Algorithm
-<!-- Explain the triangle intersection algorithm you implemented in your own words. -->
 
 First, I need to intersect the ray with the plane normal first. To do so, I compute the normal vector `N` by `(p2 - p1) cross (p3 - p1)`. Then, using the formula given in lecture `t = dot(p1 - r.o, N) / dot(r.d, N)`, then check whether the given value `t` is valid. If the ray does not intersect this plane, then it is considered that the ray did not hit the triangle (since the ray did not hit the plane that the triangle is on).
 
@@ -41,6 +39,8 @@ If any components of the barycentric coordinate is negative, then the intersecti
 Finally, if all checks passed, fill in the result of the intersection `t` from the plane intersection, bsdf from `get_bsdf()`, `n` from barycentric coordinates interpolation (`n1 * alpha + n2 * beta + n3 * gamma`), and `primitive = this`.
 
 This implementation description is general for `intersect` and `has_intersect`. Implementation-wise, `has_intersect(r)` calls `intersect(r, NULL)` and `intersect` checks that `isect` is not `NULL` before filling in the values.
+
+### Result
 
 Here's a rendering for some of the .dae files:
 
@@ -81,7 +81,6 @@ Here are some renderings of normal shading of some large .dae files:
 | -------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------- |
 | ![CBlucy.dae normal shading rendering](CBlucy.png) | ![dragon.dae normal shading rendering](dragon.png) | ![blob.dae normal shading rendering](blob.png) |
 
-<!-- Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis. -->
 After rendering a few scences with moderately complex geometries, the render time without BVH acceleration ranges from 20 seconds to a minute, reduced down to 0.1 to 0.2 seconds with BVH acceleration on normal shading. This result was gathered from rendering 800x600 images using 8 threads.
 
 ### Generative AI Notice
@@ -135,8 +134,6 @@ One of the root cause that makes the rendering gone wrong is the incorrect imple
 
 ## Part 4: Global Illumination
 
-<!-- You will probably want to use the instructional machines for the above renders in order to not burn up your own computer for hours. -->
-
 ### Implementation
 
 I created a helper function `at_least_one_bounce_radiance_recur(const Ray& r, const Intersection& isect, int recur)` where `at_least_one_bounce_radiance_recur(r, isect)` calls `at_least_one_bounce_radiance_recur(r, isect, 0)`, and adds `zero_bounce_radiance(r, isect)` in appropriate case (if `isAccumBounces` or `max_ray_depth` is 0), to help with keeping track of the depth of the ray.
@@ -145,13 +142,6 @@ In the base case implementations, there are some basic (although many) checks, a
 ```python
 if recur == 0 and max_ray_depth == 0:
     if currently not in russian roulette mode:
-        return Vector3(0, 0, 0)
-    else:
-        if currently in russian roulette mode and coin_flip(0.7):
-            continuationprob = 0.7
-            L = Vector3D(0, 0, 0)
-            goto recursive case
-        # don't go forward
         return Vector3(0, 0, 0)
 
 if recur + 1 >= max_ray_depth:
@@ -184,37 +174,54 @@ Then, I compute the cosine term, which can be derived from `wj` and `isect.n` (`
 
 ### Results
 
-
 Here's some comparison between direct and indirect illumination rendering.
 
 | Direct Illumination                               | Global Indirect Illumination                               |
 | ------------------------------------------------- | ---------------------------------------------------------- |
 | ![Direct Illumination](CBspheres_1024_16_1_1.png) | ![Global Indirect Illumination](CBspheres_1024_16_5_1.png) |
 
-
-<!-- Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.) -->
 If we cut out the direct illumination from indirect illumination, here is how it looks like:
 
 | Direct Illumination                               | Only Indirect Illumination                                                      | Global Indirect Illumination                        |
 | ------------------------------------------------- | ------------------------------------------------------------------------------- | --------------------------------------------------- |
 | ![Direct Illumination](CBspheres_1024_16_1_1.png) | ![Only Indirect Illumination](CBspheres_lambertian_1024_16_5_ONLY_INDIRECT.png) | ![Indirect Illumination](CBspheres_1024_16_5_1.png) |
 
-| Bounces       | `-m 0`                                | `-m 1`                                | `-m 2`                                | `-m 3`                                | `-m 4`                                | `-m 5`                                |
-| ------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| Unaccumulated | ![-m 0 -o 0](CBbunny_1024_16_0_0.png) | ![-m 1 -o 0](CBbunny_1024_16_1_0.png) | ![-m 2 -o 0](CBbunny_1024_16_2_0.png) | ![-m 3 -o 0](CBbunny_1024_16_3_0.png) | ![-m 4 -o 0](CBbunny_1024_16_4_0.png) | ![-m 5 -o 0](CBbunny_1024_16_5_0.png) |
-| Accumulated   | ![-m 0 -o 1](CBbunny_1024_16_0_1.png) | ![-m 1 -o 1](CBbunny_1024_16_1_1.png) | ![-m 2 -o 1](CBbunny_1024_16_2_1.png) | ![-m 3 -o 1](CBbunny_1024_16_3_1.png) | ![-m 4 -o 1](CBbunny_1024_16_4_1.png) | ![-m 5 -o 1](CBbunny_1024_16_5_1.png) |
+Here are some rendering comparing each bounces:
+
+| Bounces       | `-m 0`                                | `-m 1`                                | `-m 2`                                |
+| ------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| Unaccumulated | ![-m 0 -o 0](CBbunny_1024_16_0_0.png) | ![-m 1 -o 0](CBbunny_1024_16_1_0.png) | ![-m 2 -o 0](CBbunny_1024_16_2_0.png) |
+| Accumulated   | ![-m 0 -o 1](CBbunny_1024_16_0_1.png) | ![-m 1 -o 1](CBbunny_1024_16_1_1.png) | ![-m 2 -o 1](CBbunny_1024_16_2_1.png) |
+
+| Bounces       | `-m 3`                                | `-m 4`                                | `-m 5`                                |
+| ------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| Unaccumulated | ![-m 3 -o 0](CBbunny_1024_16_3_0.png) | ![-m 4 -o 0](CBbunny_1024_16_4_0.png) | ![-m 5 -o 0](CBbunny_1024_16_5_0.png) |
+| Accumulated   | ![-m 3 -o 1](CBbunny_1024_16_3_1.png) | ![-m 4 -o 1](CBbunny_1024_16_4_1.png) | ![-m 5 -o 1](CBbunny_1024_16_5_1.png) |
 
 In the second bounce of light, it adds the ceiling light and improve the lighting of the front of the bunny. In the third bounce of light, it adds the some shadow more quality of the bunny.
 
 
-<!-- For CBbunny.dae, output the Russian Roulette rendering with max_ray_depth set to 0, 1, 2, 3, 4, and 100(the -m flag). Use 1024 samples per pixel. -->
 With Russian Roulette, here's the rendering:
-| Russian Roulette | `-m 0`                                | `-m 1`                                     | `-m 2`                                     | `-m 3`                                     | `-m 4`                                     | `-m 5`                                |
-| ---------------- | ------------------------------------- | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------- |
-| Yes              | TODO BUG FIX                          | ![-m 1 RUSS](CBbunny_1024_16_1_1_RUSS.png) | ![-m 2 RUSS](CBbunny_1024_16_2_1_RUSS.png) | ![-m 3 RUSS](CBbunny_1024_16_3_1_RUSS.png) | ![-m 4 RUSS](CBbunny_1024_16_4_1_RUSS.png) | ![-m 5 -o 1](CBbunny_1024_16_5_1.png) |
-| No               | ![-m 0 -o 1](CBbunny_1024_16_0_1.png) | ![-m 1 -o 1](CBbunny_1024_16_1_1.png)      | ![-m 2 -o 1](CBbunny_1024_16_2_1.png)      | ![-m 3 -o 1](CBbunny_1024_16_3_1.png)      | ![-m 4 -o 1](CBbunny_1024_16_4_1.png)      | ![-m 5 -o 1](CBbunny_1024_16_5_1.png) |
+| `-m 0`                                       | `-m 1`                                     | `-m 2`                                     |
+| -------------------------------------------- | ------------------------------------------ | ------------------------------------------ |
+| ![-m 0 RUSS](CBbunny_1024_16_0_1_RUSS-2.png) | ![-m 1 RUSS](CBbunny_1024_16_1_1_RUSS.png) | ![-m 2 RUSS](CBbunny_1024_16_2_1_RUSS.png) |
 
-<!-- Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays. -->
+| `-m 3`                                     | `-m 4`                                     | `-m 100`                                       |
+| ------------------------------------------ | ------------------------------------------ | ---------------------------------------------- |
+| ![-m 3 RUSS](CBbunny_1024_16_3_1_RUSS.png) | ![-m 4 RUSS](CBbunny_1024_16_4_1_RUSS.png) | ![-m 100 RUSS](CBbunny_1024_16_100_1_RUSS.png) |
+
+Here are some renders with 4 light rays and varying sample-per-pixel rates.
+| `-s 1`                                         | `-s 2`                                         | `-s 4`                                         |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| ![-s 1](CBspheres_lambertian_1_4_5_1_RUSS.png) | ![-s 2](CBspheres_lambertian_2_4_5_1_RUSS.png) | ![-s 4](CBspheres_lambertian_4_4_5_1_RUSS.png) |
+
+| `-s 8`                                         | `-s 16`                                          | `-s 64`                                          |
+| ---------------------------------------------- | ------------------------------------------------ | ------------------------------------------------ |
+| ![-s 8](CBspheres_lambertian_8_4_5_1_RUSS.png) | ![-s 16](CBspheres_lambertian_16_4_5_1_RUSS.png) | ![-s 64](CBspheres_lambertian_64_4_5_1_RUSS.png) |
+
+| `-s 1024`                                            |
+| ---------------------------------------------------- |
+| ![-s 1024](CBspheres_lambertian_1024_4_5_1_RUSS.png) |
 
 ### Generative AI Notice
 
@@ -226,10 +233,13 @@ Adaptive sampling is a method of sampling different amount based on the rate of 
 
 ### Implementation
 
-<!-- Explain adaptive sampling. Walk through your implementation of the adaptive sampling. -->
 Adaptive sampling is a method of sampling different amount based on the rate of convergence. If the pixels seem to converge fast, stop sampling. In the original `raytrace_pixel` loop, I have added variables to keep track of the `sumil` and `sumilsq`, which are the sum of `out.illum()` and sum of `out.illum() * out.illum()`. Then, if it is every `samplesPerBatch`th sample, then I compute the `I` value according to mean and standard deviation and the num samples so far, based on the formula given in the homework. If `I` is less than `maxTolerance * mean`, then I save the num samples so far by overriding `num_samples` (so that `sampleBuffer.update_pixel(sum / num_samples, x, y)` works as expected) and early exit the loop. Then, ensure to store `num_samples` in `sampleCountBuffer` as well.
 
 ### Results
 
-<!-- Pick two scenes and render them with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth. -->
+Here are some renderings:
 
+| Type             | `CBbunny`                                                        | `CBspheres_lambertian`                                          |
+| ---------------- | ---------------------------------------------------------------- | --------------------------------------------------------------- |
+| Output Rendering | ![CBbunny output ADAP](CBbunny_2048_16_5_1_ADAP_RUSS.png)        | ![CBspheres out ADAP](CBspheres_2048_16_5_1_ADAP_RUSS.png)      |
+| Sample Rate      | ![CBbunny sampling rate](CBbunny_2048_16_5_1_ADAP_RUSS_rate.png) | ![CBspheres out rate](CBspheres_2048_16_5_1_ADAP_RUSS_rate.png) |
