@@ -1,109 +1,668 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-		<style>
-			h1 {
-				text-align: center;
-			}
+<head>
+<title>writeup.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-			.container {
-				margin: 0 auto;
-				padding: 60px 20%;
-			}
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
-			figure {
-				text-align: center;
-			}
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
 
-			img {
-				display: inline-block;
-			}
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
 
-			body {
-				font-family: 'Inter', sans-serif;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 4 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
 
-		<br>
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+body.showEditorSelection .code-line {
+	position: relative;
+}
 
-		<br>
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
 
-		<figure>
-			<img src="clothsim.png" alt="Cloth draped over sphere" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
 
-		<!--
-		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
-		-->
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
 
-		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
 
-		<h2>Part 1: Masses and springs</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			</table>
-		</div>
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
 
-		<h2>Part 2: Simulation via numerical integration</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
 
-		<h2>Part 3: Handling collisions with other objects</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
 
-		<h2>Part 4: Handling self-collisions</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
 
-		<h2>Part 5: Shaders</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
 
-		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
-		</div>
-	</body>
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="cs184284a-spring-2025-homework-4-write-up">CS184/284A Spring 2025 Homework 4 Write-Up</h1>
+<div style="text-align: center;">Sirawich Smitsomboon</div>
+<p>Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-my-team-lol/hw4/index.html">cal-cs184-student.github.io/hw-webpages-my-team-lol/hw4/index.html</a></p>
+<p>Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw4-call-random_string">github.com/cal-cs184-student/sp25-hw4-call-random_string</a></p>
+<h2 id="overview">Overview</h2>
+<p>In this homework, I have implemented cloth simulation via Verlet Integration, but in addition to handling forces, I have also handled collisions with objects and self collision with the cloth. And finally, I have decorated the scene via different kinds of shaders rather than delivering the final product only at normal shader and wireframe.</p>
+<h2 id="part-1-masses-and-springs">Part 1: Masses and springs</h2>
+<!-- Take some screenshots of scene/pinned2.json from a viewing angle where you can clearly see the cloth wireframe to show the structure of your point masses and springs. -->
+<p>Here are some screenshots of <code>scene/pinned2.json</code>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="pinned2.png" alt="pinned2 1"></td>
+<td><img src="pinned2_2.png" alt="pinned2 2"></td>
+</tr>
+</tbody>
+</table>
+<!-- Show us what the wireframe looks like (1) without any shearing constraints, (2) with only shearing constraints, and (3) with all constraints. -->
+<table>
+<thead>
+<tr>
+<th>Without Shearing</th>
+<th>Only Shearing</th>
+<th>All Constraints</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="pinned2_without_shearing.png" alt="without shearing"></td>
+<td><img src="pinned2_only_shearing.png" alt="only shearing"></td>
+<td><img src="pinned2_all_constraints.png" alt="all constraints"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-2-simulation-via-numerical-integration">Part 2: Simulation via numerical integration</h2>
+<!-- 1. Experiment with some the parameters in the simulation.
+
+For each one, observe any noticeable differences in the cloth compared to the default parameters and show us some screenshots of those interesting differences and describe when they occur. -->
+<p>After experimenting with varying the parameters, here are the results.</p>
+<!-- 1.1 Describe the effects of changing the spring constant ks; how does the cloth behave from start to rest with a very low ks? A high ks? -->
+<h3 id="varying-ks">Varying <code>ks</code></h3>
+<p>Higher <code>ks</code> makes the cloth stiffer. In a very low <code>ks</code> for pinned2, the cloth have multiple creases. In a very high <code>ks</code> for pinned2, the cloth is strected less than at the default <code>ks</code> value, making the center path fall very slightly.</p>
+<table>
+<thead>
+<tr>
+<th><code>ks = 100</code></th>
+<th><code>ks = 5000</code></th>
+<th><code>ks = 15000</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="pinned2_ks_100.png" alt="100"></td>
+<td><img src="pinned2_normal.png" alt="5000"></td>
+<td><img src="pinned2_ks_15000.png" alt="15000"></td>
+</tr>
+</tbody>
+</table>
+<!-- 1.2 What about for density? -->
+<h3 id="varying-density">Varying density</h3>
+<p>Increasing the desity makes the cloth heavier. For pinned2, when density is low, it falls less and it can be observed that the spring force is able to pull the cloth sideway a bit more. when density is high, it seems that the horizontal force affects less.</p>
+<table>
+<thead>
+<tr>
+<th><code>density = 1</code></th>
+<th><code>density = 15</code></th>
+<th><code>density = 100</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="pinned2_density_1.png" alt="1"></td>
+<td><img src="pinned2_normal.png" alt="15"></td>
+<td><img src="pinned2_density_100.png" alt="100"></td>
+</tr>
+</tbody>
+</table>
+<!-- 1.3 What about for damping? -->
+<h3 id="varying-damping">Varying damping</h3>
+<p>Higher damping results in slower falling. Lower damping results in faster falling, with the higher inertia, making the clothes swing back and forth multiple times before it converges down to a steady state. Higher damping results in very slow falling.</p>
+<table>
+<thead>
+<tr>
+<th><code>damping ≈ 0.046%</code></th>
+<th><code>damping = 0.20%</code></th>
+<th><code>damping ≈ 0.862%</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="pinned2_damping_0.046.png" alt="0.046%"></td>
+<td><img src="pinned2_normal.png" alt="0.20%"></td>
+<td><img src="pinned2_damping_0.862.png" alt="0.862%"></td>
+</tr>
+</tbody>
+</table>
+<p>While the final result of 0.862% does not look different, the time it takes for the cloth to fall down is significantly higher.</p>
+<p>&quot;Swinging&quot; during <code>damping ≈ 0.046%</code> simulation</p>
+<p><img src="pinned2_swinging.png" alt="0.046 swinging"></p>
+<!-- 2. Show us a screenshot of your shaded cloth from scene/pinned4.json in its final resting state! If you choose to use different parameters than the default ones, please list them. -->
+<p>Here's the final resting state of pinned4:</p>
+<p><img src="pinned4_final.png" alt="pinned4_final"></p>
+<h2 id="part-3-handling-collisions-with-other-objects">Part 3: Handling collisions with other objects</h2>
+<!-- Describe your implementation of handling collisions with spheres and planes. -->
+<h3 id="sphere-collision">Sphere Collision</h3>
+<p>If the point is inside the sphere (distance between point mass and sphere_center is less than radius), then the point mass position is modified by the following method:</p>
+<ol>
+<li>Tangent point is calculated as the point &quot;bumped&quot; up to the sphere boundary (Offset the origin by <code>radius</code> length in the direction of the new point mass)</li>
+<li>Correction vector is the vector from the point mass last position to the tangent point.</li>
+<li>The current point mass position is modified to be <code>pm.last_position + correction_vector * (1 - friction)</code>.</li>
+</ol>
+<h3 id="plane-collision">Plane Collision</h3>
+<p>Unlike the sphere collision, we cannot really check if the point is &quot;inside&quot; the plane as it is very thin. Therefore, the method to &quot;check&quot; is to use ray-plane intersection concept from lecture by making a ray of the last position pointing in the direction of the current position. If the plane is parallel (<code>d dot normal == 0</code>), then it is moving parallel to the plane (not clipped through). If <code>t &lt; 0</code>, then there is no collision. (moving away from plane) If <code>t &gt; (pm.position - pm.last_position).norm()</code>, then there is no collision (the point pass has moved towards the plane but does not collide with the plane yet). Otherwise, there exists a collision, and the point mass position is modified by the following method:</p>
+<ol>
+<li>Tangent point is calculated as the point &quot;bumped&quot; up to the plane boundary (the intersection point between the plane and the ray, bumped up by <code>SURFACE_OFFSET</code> as instructed by the spec) ()</li>
+<li>Correction vector is the vector from the point mass last position to the tangent point.</li>
+<li>The current point mass position is modified to be <code>pm.last_position + correction_vector * (1 - friction)</code>.</li>
+</ol>
+<h3 id="results">Results</h3>
+<!-- Show us screenshots of your shaded cloth from scene/sphere.json in its final resting state on the sphere using the default ks = 5000 as well as with ks = 500 and ks = 50000. Describe the differences in the results. -->
+<table>
+<thead>
+<tr>
+<th><code>ks = 500</code></th>
+<th><code>ks = 5000</code></th>
+<th><code>ks = 50000</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="sphere_ks_500.png" alt="500"></td>
+<td><img src="sphere_normal.png" alt="5000"></td>
+<td><img src="sphere_ks_50000.png" alt="50000"></td>
+</tr>
+</tbody>
+</table>
+<p>The lower <code>ks</code> value results in the cloth being able to stretch more. The higher <code>ks</code> value reduces that effect, and even higher would result in the cloth able to maintain its shape in a specific form.</p>
+<!-- Show us a screenshot of your shaded cloth lying peacefully at rest on the plane. If you haven’t by now, feel free to express your colorful creativity with the cloth! (You will need to complete the shaders portion first to show custom colors.) -->
+<p>And here's the cloth <i>peacefully</i> lying at rest on the plane.</p>
+<p><img src="plane.png" alt="Plane"></p>
+<h2 id="part-4-handling-self-collisions">Part 4: Handling self-collisions</h2>
+<!-- Describe your implementation of handling self-collisions. -->
+<p>Implementation:</p>
+<ol>
+<li>Build Spatial Map</li>
+<li>For each point mass, if it is not pinned, check for self collision and adjust its position.</li>
+</ol>
+<h3 id="building-sptail-map">Building Sptail Map</h3>
+<p>After clearing the hashmap, the points are used to build a hashmap, with its hash as a key, and a vector of point masses as its value. Hashing the point mass is done via its position via the following heuristics:</p>
+<pre class="hljs"><code><div>w = <span class="hljs-number">3</span> * width / num_width_points
+h = <span class="hljs-number">3</span> * height / num_height_points
+t = max(w, h)
+x = floor(pos.x / w)
+y = floor(pos.y / h)
+z = floor(pos.z / t)
+output_hash = x + y + z
+</div></code></pre>
+<h3 id="self-collision-check-and-adjustment">Self collision check and adjustment</h3>
+<p>Retrive the vector of point masses to see the candidate of point masses near the current point mass. For each point mass (that is not itself), calculate the <code>diff = pm2-&gt;position - pm.position</code> if the <code>diff</code>'s length is less than <code>2 * thickness</code>, then the adjustment vector is <code>-diff.unit() * (diff.norm() - 2 * thickness)</code>. This vector intent is to make the diff will become <code>2 * thickness</code>. However, it is not applied yet.</p>
+<p>After going through every point mass near the current point mass, take an average of the adjustment vectors, divide by <code>simulation_steps</code>, and apply to the current point mass position.</p>
+<!-- Show us at least 3 screenshots that document how your cloth falls and folds on itself, starting with an early, initial self-collision and ending with the cloth at a more restful state (even if it is still slightly bouncy on the ground). -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="selfCollision_initial.png" alt="more initial"></td>
+<td><img src="selfCollision_middle.png" alt="middle"></td>
+<td><img src="selfCollision_final.png" alt="more restful"></td>
+</tr>
+</tbody>
+</table>
+<!-- Vary the density as well as ks and describe with words and screenshots how they affect the behavior of the cloth as it falls on itself. -->
+<p>By varying <code>ks</code>, the lower <code>ks</code> shows the cloth falling down with less area, and have less area per stack (or does not really stack) and easily fall on to the ground. Larger <code>ks</code> shows the effect of the stack having the larger area.</p>
+<table>
+<thead>
+<tr>
+<th><code>ks = 100</code></th>
+<th><code>ks = 15000</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="selfCollision_ks_100.png" alt="100"></td>
+<td><img src="selfCollision_ks_15000.png" alt="15000"></td>
+</tr>
+</tbody>
+</table>
+<p>By varying density, the lower <code>ks</code> shows the cloth falling down with more area and is bent less while falling. Larger <code>ks</code> shows falling action dominates and there is less bent, and have less area per stack (or does not really stack) while falling.</p>
+<table>
+<thead>
+<tr>
+<th><code>density = 1</code></th>
+<th><code>density = 100</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="selfCollision_density_1.png" alt="1"></td>
+<td><img src="selfCollision_density_100.png" alt="100"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-5-shaders">Part 5: Shaders</h2>
+<!-- Explain in your own words what is a shader program and how vertex and fragment shaders work together to create lighting and material effects. -->
+<p>Shader program is a program that is compiled and usually run under parallelism (such as GPU acceleration). Vertex shader provides the information of the vertex and apply transformations and modify geometric properties. Fragment shader computes the output color after rasterization. Vertex shader provides information for fragment shader.</p>
+<!-- Explain the Blinn-Phong shading model in your own words. Show a screenshot of your Blinn-Phong shader outputting only the ambient component, a screen shot only outputting the diffuse component, a screen shot only outputting the specular component, and one using the entire Blinn-Phong model. -->
+<p>Blinn-Phong shading model have multiple components. Ambient lighting is the light that is applied everywhere. Specular lighting provides the white spot on the shape from where the light comes from. And diffuse shading provides the base reflection of light in all directions.</p>
+<table>
+<thead>
+<tr>
+<th>Ambient</th>
+<th>Diffuse</th>
+<th>Specular</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="sphere_ambient.png" alt="ambient"></td>
+<td><img src="sphere_diffuse.png" alt="diffuse"></td>
+<td><img src="sphere_specular.png" alt="specular"></td>
+</tr>
+</tbody>
+</table>
+<!-- Show a screenshot of your texture mapping shader using your own custom texture by modifying the textures in /textures/. -->
+<p>Here's a screenshot of my texture mapping shader.</p>
+<p><img src="sphere_texture.png" alt="rick rolled"></p>
+<!-- Show a screenshot of bump mapping on the cloth and on the sphere.--> 
+<p>Here's the bump mapping on the cloth and on the sphere.</p>
+<table>
+<thead>
+<tr>
+<th>Cloth</th>
+<th>Sphere</th>
+<th>Cloth On Sphere</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="sphere_bump_cloth.png" alt="Cloth"></td>
+<td><img src="sphere_bump_sphere.png" alt="Sphere"></td>
+<td><img src="sphere_bump_cloth_on_sphere.png" alt="Cloth On Sphere"></td>
+</tr>
+</tbody>
+</table>
+<!-- Show a screenshot of displacement mapping on the sphere. Use the same texture for both renders. You can either provide your own texture or use one of the ones in the textures directory, BUT choose one that’s not the default texture_2.png. Compare the two approaches and resulting renders in your own words. Compare how your the two shaders react to the sphere by changing the sphere mesh’s coarseness by using -o 16 -a 16 and then -o 128 -a 128. -->
+<p>Here's some displacement mapping on the sphere:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th><code>-o 16 -a 16</code></th>
+<th><code>-o 128 -a 128</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bump</td>
+<td><img src="sphere_bump_16.png" alt="bump 16"></td>
+<td><img src="sphere_bump_128.png" alt="bump 128"></td>
+</tr>
+<tr>
+<td>Displacement</td>
+<td><img src="sphere_displacement_16.png" alt="dist 16"></td>
+<td><img src="sphere_displacement_128.png" alt="dist 128"></td>
+</tr>
+</tbody>
+</table>
+<p>There seems to be no significant difference between bumps on both parameters. However, there exists some difference in displacement shading in terms of the object shapes between the parameters. As the resolution increases, the change in displacements seem to decrease in displacement shading.</p>
+<!-- Show a screenshot of your mirror shader on the cloth and on the sphere. -->
+<p>Here's the mirror shader on sphere and cloth:</p>
+<table>
+<thead>
+<tr>
+<th>Cloth</th>
+<th>Sphere</th>
+<th>Cloth On Sphere</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="sphere_mirror_cloth.png" alt="Cloth"></td>
+<td><img src="sphere_mirror_sphere.png" alt="Sphere"></td>
+<td><img src="sphere_mirror_cloth_on_sphere.png" alt="Cloth On Sphere"></td>
+</tr>
+</tbody>
+</table>
+
+</body>
 </html>
