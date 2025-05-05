@@ -8,9 +8,12 @@
 - Sirawich Smitsomboon
 
 ## Links
-Webpage: TODO
-[Google Slides](https://docs.google.com/presentation/d/1_BGKCo_NkdHPZXHpAopVWwRYvI28-YdO2QTSNaZbnP4/edit?usp=sharing) 
-Video: TODO 
+
+Webpage: [cal-cs184-student.github.io/hw-webpages-my-team-lol/finalproject/finalreport.html](https://cal-cs184-student.github.io/hw-webpages-my-team-lol/finalproject/finalreport.html)
+
+Google Slides: [docs.google.com/presentation/d/1_BGKCo_NkdHPZXHpAopVWwRYvI28-YdO2QTSNaZbnP4](https://docs.google.com/presentation/d/1_BGKCo_NkdHPZXHpAopVWwRYvI28-YdO2QTSNaZbnP4/edit?usp=sharing) 
+
+Video: [drive.google.com/file/d/1lZLZhpZsPUWio1h0d9un4POIULLDiyV1](https://drive.google.com/file/d/1lZLZhpZsPUWio1h0d9un4POIULLDiyV1/view?usp=sharing) 
 
 ## Abstract
 
