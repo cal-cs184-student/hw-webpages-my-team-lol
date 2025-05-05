@@ -80,7 +80,7 @@ Our simulation was inspired by YouTube videos from Sebastian Lague (linked in Re
 
 ![Fluid Shader](fluid_shader.png)
 
-<video controls src="2025-05-04 16-40-13.mp4" title="Fluid Simulation Demo"></video>
+<iframe src="https://drive.google.com/file/d/1EIb4jCAHyiQfdsDxqreK4osjhkFlDHpY/preview" width="640" height="480" allow="autoplay"></iframe>
 
 ## References
 - [Coding Adventure: Simulating Fluids](https://www.youtube.com/watch?v=rSKMYc1CQHE)
