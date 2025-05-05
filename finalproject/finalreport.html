@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>finalreport.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="fluid-simulation-and-rendering">Fluid Simulation and Rendering</h1>
+<h2 id="team-members">Team Members</h2>
+<ul>
+<li>Arhaan Aggarwal</li>
+<li>Riley Udagawa</li>
+<li>Mateus Ikezaki</li>
+<li>Sirawich Smitsomboon</li>
+</ul>
+<h2 id="links">Links</h2>
+<p>Webpage: TODO
+<a href="https://docs.google.com/presentation/d/1_BGKCo_NkdHPZXHpAopVWwRYvI28-YdO2QTSNaZbnP4/edit?usp=sharing">Google Slides</a>
+Video: TODO</p>
+<h2 id="abstract">Abstract</h2>
+<p>Our project focuses on simulating and rendering realistic fluid behavior in a 3D environment. We implemented a particle based simulation that mimics fluid dynamics through inter particle interactions and boundary collisions. We paired this simulation with a rendering pipeline using volumetric ray marching to visualize the fluid with physics inspired effects like reflection and refraction. The goal is to create an interactive and visually compelling demonstration of fluid behavior, which allows for real time parameter tuning via a GUI.</p>
+<h2 id="technical-approach">Technical Approach</h2>
+<p>We split the project into two major components:</p>
+<h3 id="1-physics-simulation">1. Physics Simulation</h3>
+<ul>
+<li>Modeled fluids using a particle-based approach (similar to SPH, but simplified).</li>
+<li>Implemented basic inter particle forces based on fluid density and viscosity forces.</li>
+<li>Implemented spatial map techniques  similar to ones in HW 4 to avoid O(n2) runtime in density and particle forces calculation, but with a more careful approach on handling boundaries between each grid.</li>
+<li>Speed up the simulation via parallelism with OpenMP.</li>
+<li>Enabled real time parameter manipulation through a GUI (e.g., tuning target density, pressure multiplier, bounding boxes).</li>
+</ul>
+<h3 id="2-rendering">2. Rendering</h3>
+<ul>
+<li>Initially rendered particles as spheres, then transitioned to ray marching to visualize the fluid volume based on particle density fields.</li>
+<li>Populated a density field based on particles’ positions and converted the density field to a 3D sampler.</li>
+<li>Marched a ray through the fluid box and accumulated densities (using the sampler) along the way, simulating light scattering.</li>
+<li>Constructed test scenes to evaluate the interaction of light with the fluid body.</li>
+</ul>
+<h2 id="implementation-details">Implementation Details</h2>
+<p>Our simulation was inspired by YouTube videos from Sebastian Lague (linked in References) and Smoothed Particle Hydrodynamics (SPH) principles. We implemented the following key components:</p>
+<ol>
+<li>
+<p><strong>Smoothing Kernel Functions:</strong> We used a cubic polynomial variant of the Poly6 kernel for density estimation. This ensures a smooth influence falloff from neighboring particles, and a continuous density field. The kernel's derivative is used for calculating pressure gradients between particles.</p>
+</li>
+<li>
+<p><strong>Pressure Force Calculation:</strong> Pressure forces between particles were derived using a symmetrized formula. We ensured numerical stability by generating a fallback direction (randDirection()) if the distance between particles was zero.</p>
+</li>
+<li>
+<p><strong>Spatial Hashing:</strong> To avoid brute-force neighbor searches (O(n²)), we implemented a spatial hash grid. Each particle is assigned to a cell in the grid based on its predicted position.</p>
+</li>
+<li>
+<p><strong>Parallelization:</strong> Most core simulation steps are parallelized using OpenMP. This was important to achieve real time interactivity in our system, especially during the GUI based tuning.</p>
+<ul>
+<li>Density estimation</li>
+<li>Pressure force computation</li>
+<li>Velocity and position updates</li>
+</ul>
+</li>
+</ol>
+<h2 id="challenges-and-solutions">Challenges and Solutions</h2>
+<ol>
+<li>
+<p><strong>Performance Bottlenecks:</strong> We noticed performance degradation beyond 1500 particles. We addressed this with spatial partitioning techniques, parallelization with OpenMP, and reducing the step size to ensure that simulation can be run in real-time.</p>
+</li>
+<li>
+<p><strong>Rendering Complexity:</strong> Although our original plan was to simulate reflection and refraction, we were unable to do so in the time constraints we had. Our primary focus went into ensuring that we had a base shader that blended the particles together in a realistic manner. Implementing that was also challenging, as there was a fine balance between over blurring the particles, and blurring too little. We had to balance the blur intensity along with the number of particles used to simulate the fluid.</p>
+</li>
+<li>
+<p><strong>Debugging and Parameter Tuning:</strong> Particles sometimes do not behave as expected. A lot of parameter tuning and debugging are required to ensure that the physics of the fluid turned out to look reasonable.</p>
+</li>
+</ol>
+<h2 id="lessons-learned">Lessons Learned</h2>
+<ol>
+<li>
+<p>Fluid simulation demands a careful balance between performance and realism. Even small changes to force functions drastically affected visual outcomes.</p>
+</li>
+<li>
+<p>Fluid Physics simulations are powerful but require thoughtful parameter tuning to look compelling.</p>
+</li>
+<li>
+<p>Real time interactivity (via GUI) helped improve the debugging, parameter turning, and exploration process.</p>
+</li>
+<li>
+<p>And other than that, we gained experiences working with shaders, physics simulation, and parallelism.</p>
+</li>
+</ol>
+<h2 id="results">Results</h2>
+<ol>
+<li>
+<p>Achieved real-time fluid simulation up to ~3000 particles with stable performance.</p>
+</li>
+<li>
+<p>Developed a functional GUI for manipulating fluid properties.</p>
+</li>
+<li>
+<p>Presented a cohesive and compelling visualization in the final video.</p>
+</li>
+</ol>
+<p><img src="fluid_particles.png" alt="Fluid Particles"></p>
+<p><img src="fluid_shader.png" alt="Fluid Shader"></p>
+<p><video controls src="2025-05-04 16-40-13.mp4" title="Fluid Simulation Demo"></video></p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=rSKMYc1CQHE">Coding Adventure: Simulating Fluids</a></li>
+<li><a href="https://www.youtube.com/watch?v=kOkfC5fLfgE">Coding Adventure: Rendering Fluids</a></li>
+<li>Müller, M., et al. (2003). &quot;Particle-based fluid simulation for interactive applications.&quot; ACM SIGGRAPH.</li>
+<li>Bridson, R. (2015). Fluid Simulation for Computer Graphics.</li>
+</ul>
+
+</body>
+</html>
